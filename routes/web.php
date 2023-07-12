@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WalletController;
+use App\Http\Controllers\TransactionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,6 +15,14 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::group(['prefix' => 'user', 'middleware' => 'authentication'], function () {
+
+    Route::group(['prefix' => 'wallet'], function () {
+        Route::get('/', [WalletController::class, 'balance']);
+    });
+
+    Route::group(['prefix' => 'transactions'], function () {
+        Route::get('/', [TransactionController::class, 'all']);
+    });
+
 });
