@@ -15,6 +15,6 @@ class BalanceAction
 
     public function handle(string $phone): int
     {
-        return $this->walletRepository->get($phone);
+        return $this->walletRepository->balance($phone);
     }
 }

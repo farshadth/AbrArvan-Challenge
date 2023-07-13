@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Services\Wallet;
+namespace App\Services;
 
 use App\Actions\Wallet\BalanceAction;
 

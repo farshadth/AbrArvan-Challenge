@@ -19,7 +19,8 @@ return new class extends Migration
                 ->cascadeOnUpdate()
                 ->cascadeOnDelete();
 
-            $table->integer('gift_code_id');
+            $table->string('code');
+            $table->integer('price');
             $table->enum('status', ['Success', 'Failed']);
             $table->timestamps();
         });
