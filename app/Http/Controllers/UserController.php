@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\UserResource;
 use App\Services\UserService;
-use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
@@ -17,8 +16,8 @@ class UserController extends Controller
 
     public function successTransactions($code): UserResource
     {
-        $users = $this->userService->successTransactions($code);
+        $response = $this->userService->successTransactions($code);
 
-        return new UserResource($users);
+        return new UserResource($response);
     }
 }

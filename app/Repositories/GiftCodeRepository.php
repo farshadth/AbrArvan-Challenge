@@ -14,4 +14,12 @@ class GiftCodeRepository
 
         return collect($giftCode);
     }
+
+    public function all(array $request): Collection
+    {
+        return GiftCode::query()
+            ->when(!empty($request['code']), fn($query) => $query->where('code' , $request['code']))
+            ->get()
+            ->collect();
+    }
 }

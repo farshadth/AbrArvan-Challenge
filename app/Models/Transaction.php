@@ -13,7 +13,8 @@ class Transaction extends Model
 
     protected $fillable = [
         'wallet_id',
-        'gift_code_id',
+        'code',
+        'price',
         'status',
     ];
 

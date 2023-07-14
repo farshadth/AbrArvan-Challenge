@@ -18,8 +18,8 @@ class TransactionController extends Controller
 
     public function allByPhone(Request $request): TransactionResource
     {
-        $transactions = $this->transactionService->allByPhone($request->phone);
+        $response = $this->transactionService->allByPhone($request->phone);
 
-        return new TransactionResource($transactions);
+        return new TransactionResource($response);
     }
 }

@@ -17,10 +17,10 @@ class WalletController extends Controller
 
     public function balance(Request $request): WalletResource
     {
-        $balance = $this->walletService->get($request->phone);
+        $response = $this->walletService->get($request->phone);
 
         return new WalletResource([
-            'balance' => $balance
+            'balance' => $response
         ]);
     }
 }

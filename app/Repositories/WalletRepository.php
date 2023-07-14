@@ -25,4 +25,11 @@ class WalletRepository
     {
         return Wallet::query()->where('user_id', $userId)->first();
     }
+
+    public function getByPhone(string $phone): Wallet
+    {
+        $userId = $this->userRepository->get($phone)->id;
+
+        return $this->getByUserId($userId);
+    }
 }

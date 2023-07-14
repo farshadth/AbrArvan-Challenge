@@ -27,10 +27,18 @@ Route::group(['prefix' => 'user', 'middleware' => 'authentication'], function ()
         Route::get('/', [TransactionController::class, 'allByPhone']);
     });
 
+    Route::group(['prefix' => 'gift/code'], function () {
+        Route::get('/', [GiftCodeController::class, 'add'])->middleware('lottery');
+    });
+
 });
 
-Route::group(['prefix' => 'gift/code'], function () {
-    Route::post('/', [GiftCodeController::class, 'create']);
-});
+Route::group(['prefix' => 'admin'], function () {
 
-Route::get('users/transactions/{code}/success', [UserController::class, 'successTransactions']);
+    Route::group(['prefix' => 'gift/code'], function () {
+        Route::post('/', [GiftCodeController::class, 'create']);
+    });
+
+    Route::get('transactions/{code}/success', [UserController::class, 'successTransactions']);
+
+});
