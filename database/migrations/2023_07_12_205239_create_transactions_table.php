@@ -21,7 +21,6 @@ return new class extends Migration
 
             $table->string('code');
             $table->integer('price');
-            $table->enum('status', ['Success', 'Failed']);
             $table->timestamps();
         });
     }

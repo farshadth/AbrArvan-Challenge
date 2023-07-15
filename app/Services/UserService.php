@@ -22,7 +22,6 @@ class UserService
     public function successTransactions(string $code = null): Collection
     {
         $transactions = $this->transactionRepository->all([
-            'status' => self::SUCCESS,
             'code' => $code
         ]);
 

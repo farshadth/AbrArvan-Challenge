@@ -32,4 +32,13 @@ class WalletRepository
 
         return $this->getByUserId($userId);
     }
+
+    public function charge(string $phone, int $price): bool
+    {
+        $user = $this->userRepository->get($phone);
+
+        return Wallet::query()
+            ->where('user_id', $user->id)
+            ->increment('balance', $price);
+    }
 }

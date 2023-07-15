@@ -4,7 +4,9 @@ namespace App\Jobs\Transaction;
 
 use App\Models\Transaction;
 use App\Repositories\GiftCodeRepository;
+use App\Repositories\UserRepository;
 use App\Repositories\WalletRepository;
+use Carbon\Carbon;
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Bus\Dispatchable;
@@ -22,11 +24,11 @@ class AddTransactionJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct(array $data, GiftCodeRepository $giftCodeRepository, WalletRepository $walletRepository)
+    public function __construct(array $data)
     {
         $this->data = $data;
-        $this->giftCodeRepository = $giftCodeRepository;
-        $this->walletRepository = $walletRepository;
+        $this->giftCodeRepository = app('GiftCodeRepository');
+        $this->walletRepository = app('WalletRepository');
     }
 
     /**
@@ -38,7 +40,7 @@ class AddTransactionJob implements ShouldQueue
             'wallet_id' => $this->walletRepository->getByPhone($this->data['phone'])->id,
             'code' => $this->data['code'],
             'price' => $this->giftCodeRepository->all(['code' => $this->data['code']])->first()->price,
-            'status' => $this->data['status'],
+            'created_at' => Carbon::now(),
         ]);
     }
 }

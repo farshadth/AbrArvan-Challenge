@@ -29,7 +29,6 @@ class TransactionRepository
     {
         return Transaction::query()
             ->when(!empty($request['code']), fn($query) => $query->where('code' , $request['code']))
-            ->when(!empty($request['status']), fn($query) => $query->where('status' , $request['status']))
             ->get()
             ->collect();
     }
