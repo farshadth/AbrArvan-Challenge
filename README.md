@@ -41,5 +41,5 @@ http://localhost:8000
 
 Download the postman API:
 
-[Postman API Collection](https://github.com/farshadth/AbrArvan-Challenge/AbrArvan.postman_collection.json)
+[Postman API Collection](https://github.com/farshadth/AbrArvan-Challenge/blob/master/AbrArvan.postman_collection.json)
 
