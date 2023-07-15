@@ -6,6 +6,7 @@ use App\Http\Requests\AddGiftCodeRequest;
 use App\Http\Requests\GiftCodeRequest;
 use App\Http\Resources\GiftCodeResource;
 use App\Services\GiftCodeService;
+use Illuminate\Http\JsonResponse;
 
 class GiftCodeController extends Controller
 {
@@ -23,8 +24,8 @@ class GiftCodeController extends Controller
         return new GiftCodeResource($response);
     }
 
-    public function add(AddGiftCodeRequest $request)
+    public function add(AddGiftCodeRequest $request): JsonResponse
     {
-        $response = $this->giftCodeService->add($request->validated());
+        return $this->giftCodeService->add($request->validated());
     }
 }
