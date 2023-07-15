@@ -42,6 +42,7 @@ class GiftCodeService
         $caheKey = env('GIFT_CODE_USER_DATA_CACHE_KEY').'_'.$request['phone'];
         $data = $this->setLotteryData($request);
         Cache::put($caheKey, json_encode($data), env('GIFT_CODE_KEY_EXPIRE_TIME'));
+
         // publish to channel
         $this->subscribeAction->handle(env('GIFT_CODE_CHANNEL'), $data);
 
