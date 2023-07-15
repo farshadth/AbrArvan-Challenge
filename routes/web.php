@@ -5,6 +5,7 @@ use App\Http\Controllers\WalletController;
 use App\Http\Controllers\TransactionController;
 use App\Http\Controllers\GiftCodeController;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Cache;
 
 /*
 |--------------------------------------------------------------------------
@@ -17,6 +18,14 @@ use App\Http\Controllers\UserController;
 |
 */
 
+Route::group(['prefix' => 'cache'], function () {
+
+    Route::get('flush', function () {
+        Cache::flush();
+    });
+
+});
+
 Route::group(['prefix' => 'user', 'middleware' => 'authentication'], function () {
 
     Route::group(['prefix' => 'wallet'], function () {
@@ -28,7 +37,7 @@ Route::group(['prefix' => 'user', 'middleware' => 'authentication'], function ()
     });
 
     Route::group(['prefix' => 'gift/code'], function () {
-        Route::get('/', [GiftCodeController::class, 'add'])->middleware('lottery');
+        Route::post('/', [GiftCodeController::class, 'add'])->middleware('lottery');
     });
 
 });

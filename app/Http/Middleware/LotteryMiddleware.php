@@ -16,8 +16,9 @@ class LotteryMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
+        // check to prevent duplicating request from a user
         $caheKey = env('GIFT_CODE_USER_DATA_CACHE_KEY').'_'.$request->phone;
-//        abort_if(Cache::has($caheKey), Response::HTTP_NOT_FOUND);
+        abort_if(Cache::has($caheKey), Response::HTTP_NOT_FOUND);
 
         return $next($request);
     }

@@ -6,6 +6,7 @@ use App\Actions\GiftCode\CreateAction;
 use App\Actions\Redis\SubscribeAction;
 use App\Actions\Wallet\ChargeAction;
 use App\Jobs\Transaction\AddTransactionJob;
+use App\Jobs\Wallet\ChargeWalletJob;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Cache;
@@ -16,17 +17,11 @@ class GiftCodeService
     private static $lotteryNumberWinners;
     private CreateAction $createAction;
     private SubscribeAction $subscribeAction;
-    private ChargeAction $chargeAction;
 
-    public function __construct(
-        CreateAction $createAction,
-        SubscribeAction $subscribeAction,
-        ChargeAction $chargeAction
-    )
+    public function __construct(CreateAction $createAction, SubscribeAction $subscribeAction)
     {
         $this->createAction = $createAction;
         $this->subscribeAction = $subscribeAction;
-        $this->chargeAction = $chargeAction;
     }
 
     public function create(array $request): Collection
@@ -36,17 +31,18 @@ class GiftCodeService
 
     public function add(array $request): JsonResponse
     {
-        self::$lotteryNumberWinners = $this->getNumberLotteryWinners($request);
-        self::$lotteryNumberWinners++;
+        self::$lotteryNumberWinners = $this->getNumberLotteryWinners($request) + 1;
+
         if(!$this->userWon()) {
             return response()->json(['status' => 'failed'], Response::HTTP_OK);
         }
 
+        // add to cache
         Cache::increment(env('GIFT_CODE_CACHE_KEY'));
         $caheKey = env('GIFT_CODE_USER_DATA_CACHE_KEY').'_'.$request['phone'];
         $data = $this->setLotteryData($request);
         Cache::put($caheKey, json_encode($data), env('GIFT_CODE_KEY_EXPIRE_TIME'));
-        $this->chargeAction->handle($request['phone'], env('GIFT_CODE_PRICE'));
+        // publish to channel
         $this->subscribeAction->handle(env('GIFT_CODE_CHANNEL'), $data);
 
         return response()->json(['status' => 'success'], Response::HTTP_OK);
@@ -57,7 +53,7 @@ class GiftCodeService
         return Cache::remember(env('GIFT_CODE_CACHE_KEY'), env('GIFT_CODE_KEY_EXPIRE_TIME'), function () use ($request) {
             Cache::put(env('GIFT_CODE_CACHE_KEY'), 1, env('GIFT_CODE_KEY_EXPIRE_TIME'));
 
-            return 1;
+            return 0;
         });
     }
 

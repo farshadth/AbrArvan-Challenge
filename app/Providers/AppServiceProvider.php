@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Actions\Wallet\ChargeAction;
 use App\Repositories\GiftCodeRepository;
 use App\Repositories\WalletRepository;
 use Illuminate\Support\ServiceProvider;
@@ -15,6 +16,7 @@ class AppServiceProvider extends ServiceProvider
     {
         $this->app->bind('WalletRepository', WalletRepository::class);
         $this->app->bind('GiftCodeRepository', GiftCodeRepository::class);
+        $this->app->bind('ChargeAction', ChargeAction::class);
     }
 
     /**

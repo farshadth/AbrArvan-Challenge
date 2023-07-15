@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Jobs\Transaction\AddTransactionJob;
+use App\Jobs\Wallet\ChargeWalletJob;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Redis;
 
@@ -29,6 +30,7 @@ class RedisSubscribeCommand extends Command
     {
         Redis::subscribe([env('GIFT_CODE_CHANNEL')], function (string $message) {
             $data = json_decode($message, true);
+            ChargeWalletJob::dispatch($data);
             AddTransactionJob::dispatch($data);
         });
     }
