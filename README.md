@@ -1,5 +1,5 @@
 ## Docker
-use the following command to run docker:
+use the following command to run the docker:
 
 ```php
 docker compose up -d --build
@@ -21,13 +21,13 @@ Then run the following command to listen to the subscribe channel of redis:
 php artisan redis:subscribe
 ```
 
-And finally run the following command to listen to the queue:
+And finally, run the following command to listen to the queue:
 
 ```php
 php artisan queue:work
 ```
 
-You can access the databse by the following address: (username and password are exist in .env)
+You can access the database by the following address:
 
 ```php
 http://localhost:9090
@@ -39,7 +39,7 @@ The base address for calling the APIs:
 http://localhost:8000
 ```
 
-Download the postman API:
+Download the Postman API:
 
 [Postman API Collection](https://github.com/farshadth/AbrArvan-Challenge/blob/master/AbrArvan.postman_collection.json)
 
