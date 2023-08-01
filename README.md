@@ -1,5 +1,8 @@
-## Scenario Explanation
-I store the number of winners in a cache key. when a user sends a code, I check the cache and if the number of winning users is equal to 1000 an error message is returned, else if the user wins the code his data is stored in the cache including code and phone number. The reason that the user data is stored in the cache is for preventing from duplicating requests. before checking the code a middleware checks if this code and the phone number are already stored in the cache or not. if so an abortion occurs. 
+## Scenario 
+In the middle of a football match, a charge code is published, the first 1000 users who send this code by their phone number win, and their wallets balance is charged 1,000,000$
+
+## Solution
+I store the number of winners in a cache key. when a user sends a code, I check the cache and if the number of winning users is equal to 1000 an error message is returned, else if the user wins the code his data is stored in the cache including the code and phone number, also the number of winners in the cache is updated. The reason that the user data is stored in the cache is to prevent duplicating requests. before checking the code a middleware checks if this code and the phone number are already stored in the cache. if so an abortion occurs. 
 
 Afterward, the data is published to a channel Redis and a successful message is returned. on behind the subscribe command gets the data and dispatches two jobs for charging the wallet balance and adding the transaction of the user. and these two jobs are using queue to be run.
 
